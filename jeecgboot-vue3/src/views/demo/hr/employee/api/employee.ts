@@ -134,7 +134,7 @@ export const editEmployee = (data: Employee) =>
  * @returns 操作结果
  */
 export const deleteEmployee = (id: string) =>
-  defHttp.delete<ApiResponse>({ url: Api.DELETE, params: { id } });
+  defHttp.delete<ApiResponse>({ url: Api.DELETE + `?id=${id}` });
 
 /**
  * 批量删除员工
@@ -142,7 +142,7 @@ export const deleteEmployee = (id: string) =>
  * @returns 操作结果
  */
 export const deleteBatchEmployees = (ids: string) =>
-  defHttp.delete<ApiResponse>({ url: Api.DELETE_BATCH, params: { ids } });
+  defHttp.delete<ApiResponse>({ url: Api.DELETE_BATCH + `?ids=${ids}` });
 
 /**
  * 导出员工数据

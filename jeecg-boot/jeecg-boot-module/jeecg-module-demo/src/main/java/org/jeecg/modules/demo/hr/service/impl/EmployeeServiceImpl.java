@@ -109,10 +109,16 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean deleteEmployee(String id) {
+        log.info("开始删除员工，ID: {}", id);
+
         Employee employee = this.getById(id);
         if (employee == null) {
+            log.error("员工信息不存在，ID: {}", id);
             throw new RuntimeException("员工信息不存在");
         }
+
+        log.info("找到员工信息: {}", employee.getName());
+        log.info("删除前删除标志: {}", employee.getDelFlag());
 
         // 逻辑删除
         employee.setDelFlag(1);
@@ -123,7 +129,10 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
             employee.setUpdateBy(sysUser.getUsername());
         }
 
-        return this.updateById(employee);
+        boolean result = this.updateById(employee);
+        log.info("更新操作结果: {}, 删除标志: {}", result, employee.getDelFlag());
+
+        return result;
     }
 
     @Override

@@ -17,7 +17,7 @@
               tooltip: '删除',
               popConfirm: {
                 title: '是否确认删除',
-                confirm: handleDelete.bind(null, record.id),
+                confirm: () => handleDelete(record),
               },
             },
           ]"
@@ -124,12 +124,33 @@ const handleEdit = (record: Recordable) => {
 };
 
 // 删除方法
-const handleDelete = async (id: string) => {
+const handleDelete = async (record: Recordable) => {
   try {
-    await deleteEmployee(id);
+    console.log('删除员工，完整记录:', record);
+    console.log('记录中的所有字段:', Object.keys(record));
+
+    // 尝试从不同可能的字段名获取ID
+    const id = record.id || record.employeeId || record.employee_id;
+
+    console.log('提取的ID:', id);
+    console.log('ID类型:', typeof id);
+    console.log('ID长度:', id ? id.length : 'null');
+
+    if (!id) {
+      console.error('员工ID为空，记录详情:', JSON.stringify(record, null, 2));
+      createMessage.error('员工ID不能为空');
+      return;
+    }
+
+    console.log('调用删除API，ID:', id);
+    const response = await deleteEmployee(id);
+    console.log('删除API响应:', response);
+
     createMessage.success('删除成功');
     reload();
   } catch (error) {
+    console.error('删除员工失败:', error);
+    console.error('错误详情:', error.response || error.message);
     createMessage.error('删除失败');
   }
 };

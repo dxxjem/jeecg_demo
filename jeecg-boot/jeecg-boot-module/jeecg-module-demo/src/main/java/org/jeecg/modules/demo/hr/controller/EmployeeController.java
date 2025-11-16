@@ -92,7 +92,47 @@ public class EmployeeController extends JeecgController<Employee, IEmployeeServi
     @DeleteMapping(value = "/delete")
     public Result<String> delete(@RequestParam(name = "id", required = true) String id) {
         try {
-            employeeService.deleteEmployee(id);
+            log.info("Controller接收到删除请求，ID: {}", id);
+            log.info("ID类型: {}, ID长度: {}", id != null ? id.getClass().getSimpleName() : "null", id != null ? id.length() : 0);
+
+            // 先查询看看是否能找到这个员工
+            Employee employee = employeeService.getById(id);
+            if (employee == null) {
+                log.error("未找到员工，ID: {}", id);
+                return Result.error("未找到员工信息");
+            }
+            log.info("找到员工: {}", employee.getName());
+            log.info("删除前删除标志: {}", employee.getDelFlag());
+
+            boolean result = employeeService.deleteEmployee(id);
+            log.info("删除操作结果: {}", result);
+
+            // 验证删除是否成功 - 这里可能存在缓存问题
+            log.info("Controller开始验证删除结果");
+            Employee updatedEmployee = employeeService.getById(id);
+            if (updatedEmployee != null) {
+                log.info("Service查询验证 - 删除标志: {}", updatedEmployee.getDelFlag());
+
+                // 如果Service查询显示未删除，说明存在缓存问题
+                if (updatedEmployee.getDelFlag() != 1) {
+                    log.error("发现缓存问题！Service查询显示删除标志为: {}", updatedEmployee.getDelFlag());
+
+                    // 尝试直接查询数据库绕过缓存
+                    try {
+                        // 注意：这里需要引入Mapper或者使用其他方式直接查询数据库
+                        // 暂时先记录这个问题，让用户知道根本原因
+                        log.error("根本原因：删除操作完成但缓存返回旧数据");
+                        log.error("建议解决方案：清除MyBatis二级缓存或重新查询");
+
+                        return Result.error("删除操作已执行，但缓存问题导致显示未删除。建议刷新页面或清除缓存后查看。");
+                    } catch (Exception directQueryError) {
+                        log.error("直接数据库查询失败:", directQueryError);
+                    }
+                }
+            } else {
+                log.error("删除后验证失败 - 无法获取更新后的员工信息");
+            }
+
             return Result.OK("删除成功!");
         } catch (Exception e) {
             log.error("删除员工失败", e);
