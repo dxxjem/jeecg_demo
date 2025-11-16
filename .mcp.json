@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "mysql": {
+      "command": "npx",
+      "args": ["mcp-mysql-lens"],
+      "env": {
+        "MYSQL_HOST": "localhost",
+        "MYSQL_PORT": "3306",
+        "MYSQL_USER": "dimx",
+        "MYSQL_PASSWORD": "123456",
+        "MYSQL_DATABASE": "jeecg-boot"
+      }
+    }
+  }
+}

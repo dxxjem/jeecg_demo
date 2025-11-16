@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.demo.hr.mapper.EmployeeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="org.jeecg.modules.demo.hr.entity.Employee">
+        <id column="id" property="id" />
+        <result column="employee_no" property="employeeNo" />
+        <result column="name" property="name" />
+        <result column="gender" property="gender" />
+        <result column="birth_date" property="birthDate" />
+        <result column="id_card" property="idCard" />
+        <result column="mobile" property="mobile" />
+        <result column="email" property="email" />
+        <result column="department_id" property="departmentId" />
+        <result column="position" property="position" />
+        <result column="hire_date" property="hireDate" />
+        <result column="employee_status" property="employeeStatus" />
+        <result column="address" property="address" />
+        <result column="emergency_contact" property="emergencyContact" />
+        <result column="emergency_phone" property="emergencyPhone" />
+        <result column="education" property="education" />
+        <result column="remark" property="remark" />
+        <result column="del_flag" property="delFlag" />
+        <result column="create_by" property="createBy" />
+        <result column="create_time" property="createTime" />
+        <result column="update_by" property="updateBy" />
+        <result column="update_time" property="updateTime" />
+        <result column="version" property="version" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, employee_no, name, gender, birth_date, id_card, mobile, email, department_id, position, hire_date, employee_status, address, emergency_contact, emergency_phone, education, remark, del_flag, create_by, create_time, update_by, update_time, version
+    </sql>
+
+    <!-- 分页查询 -->
+    <select id="selectPage" parameterType="org.jeecg.modules.demo.hr.entity.Employee" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM employee
+        WHERE del_flag = 0
+        <if test="employee.employeeNo != null and employee.employeeNo != ''">
+            AND employee_no LIKE CONCAT('%', #{employee.employeeNo}, '%')
+        </if>
+        <if test="employee.name != null and employee.name != ''">
+            AND name LIKE CONCAT('%', #{employee.name}, '%')
+        </if>
+        <if test="employee.gender != null and employee.gender != ''">
+            AND gender = #{employee.gender}
+        </if>
+        <if test="employee.mobile != null and employee.mobile != ''">
+            AND mobile LIKE CONCAT('%', #{employee.mobile}, '%')
+        </if>
+        <if test="employee.email != null and employee.email != ''">
+            AND email LIKE CONCAT('%', #{employee.email}, '%')
+        </if>
+        <if test="employee.departmentId != null and employee.departmentId != ''">
+            AND department_id = #{employee.departmentId}
+        </if>
+        <if test="employee.position != null and employee.position != ''">
+            AND position LIKE CONCAT('%', #{employee.position}, '%')
+        </if>
+        <if test="employee.employeeStatus != null and employee.employeeStatus != ''">
+            AND employee_status = #{employee.employeeStatus}
+        </if>
+        <if test="employee.education != null and employee.education != ''">
+            AND education = #{employee.education}
+        </if>
+        <if test="employee.hireDate != null">
+            AND hire_date = #{employee.hireDate}
+        </if>
+        ORDER BY create_time DESC
+    </select>
+
+    <!-- 根据员工工号查询 -->
+    <select id="selectByEmployeeNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM employee
+        WHERE del_flag = 0 AND employee_no = #{employeeNo}
+        LIMIT 1
+    </select>
+
+    <!-- 根据身份证号查询 -->
+    <select id="selectByIdCard" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM employee
+        WHERE del_flag = 0 AND id_card = #{idCard}
+        LIMIT 1
+    </select>
+
+    <!-- 根据手机号查询 -->
+    <select id="selectByMobile" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM employee
+        WHERE del_flag = 0 AND mobile = #{mobile}
+        LIMIT 1
+    </select>
+
+    <!-- 查询指定部门的员工数量 -->
+    <select id="countByDepartmentId" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM employee
+        WHERE del_flag = 0 AND department_id = #{departmentId}
+    </select>
+
+    <!-- 查询指定状态的员工数量 -->
+    <select id="countByEmployeeStatus" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM employee
+        WHERE del_flag = 0 AND employee_status = #{employeeStatus}
+    </select>
+
+    <!-- 批量查询员工信息 -->
+    <select id="selectBatchIds" parameterType="java.util.List" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM employee
+        WHERE del_flag = 0 AND id IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        ORDER BY create_time DESC
+    </select>
+
+    <!-- 根据条件查询员工列表 -->
+    <select id="selectList" parameterType="org.jeecg.modules.demo.hr.entity.Employee" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM employee
+        WHERE del_flag = 0
+        <if test="employee.employeeNo != null and employee.employeeNo != ''">
+            AND employee_no = #{employee.employeeNo}
+        </if>
+        <if test="employee.name != null and employee.name != ''">
+            AND name LIKE CONCAT('%', #{employee.name}, '%')
+        </if>
+        <if test="employee.gender != null and employee.gender != ''">
+            AND gender = #{employee.gender}
+        </if>
+        <if test="employee.mobile != null and employee.mobile != ''">
+            AND mobile = #{employee.mobile}
+        </if>
+        <if test="employee.email != null and employee.email != ''">
+            AND email LIKE CONCAT('%', #{employee.email}, '%')
+        </if>
+        <if test="employee.departmentId != null and employee.departmentId != ''">
+            AND department_id = #{employee.departmentId}
+        </if>
+        <if test="employee.position != null and employee.position != ''">
+            AND position LIKE CONCAT('%', #{employee.position}, '%')
+        </if>
+        <if test="employee.employeeStatus != null and employee.employeeStatus != ''">
+            AND employee_status = #{employee.employeeStatus}
+        </if>
+        <if test="employee.education != null and employee.education != ''">
+            AND education = #{employee.education}
+        </if>
+        ORDER BY create_time DESC
+    </select>
+
+</mapper>

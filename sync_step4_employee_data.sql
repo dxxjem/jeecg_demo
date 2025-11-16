@@ -1,0 +1,8 @@
+-- 插入测试数据
+INSERT IGNORE INTO `employee` (`id`, `employee_no`, `name`, `gender`, `birth_date`, `id_card`, `mobile`, `email`, `department_id`, `position`, `hire_date`, `employee_status`, `address`, `emergency_contact`, `emergency_phone`, `education`, `remark`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`)
+VALUES
+('1', 'EMP001', '张三', 'male', '1990-01-01', '110101199001011234', '13800138001', 'zhangsan@example.com', '1', '软件工程师', '2023-01-01', 'active', '北京市朝阳区', '李四', '13900139001', 'bachelor', '优秀员工', 'admin', NOW(), 'admin', NOW(), 0),
+('2', 'EMP002', '李四', 'female', '1992-02-02', '110101199002022345', '13800138002', 'lisi@example.com', '2', '产品经理', '2023-02-01', 'active', '北京市海淀区', '张三', '13800138001', 'master', '新入职员工', 'admin', NOW(), 'admin', NOW(), 0),
+('3', 'EMP003', '王五', 'male', '1988-03-03', '110101198803033456', '13800138003', 'wangwu@example.com', '1', '高级软件工程师', '2022-03-01', 'active', '北京市西城区', '赵六', '13700137001', 'bachelor', '技术骨干', 'admin', NOW(), 'admin', NOW(), 0),
+('4', 'EMP004', '赵六', 'female', '1995-04-04', '110101199504044567', '13800138004', 'zhaoliu@example.com', '3', 'UI设计师', '2023-04-01', 'trial', '北京市东城区', '钱七', '13600136001', 'college', '试用期员工', 'admin', NOW(), 'admin', NOW(), 0),
+('5', 'EMP005', '钱七', 'male', '1985-05-05', '110101198505055678', '13800138005', 'qianqi@example.com', '2', '项目经理', '2021-05-01', 'active', '北京市丰台区', '孙八', '13500135001', 'master', '经验丰富', 'admin', NOW(), 'admin', NOW(), 0);

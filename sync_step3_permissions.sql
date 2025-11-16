@@ -1,0 +1,10 @@
+-- 插入员工管理子菜单及操作权限
+INSERT IGNORE INTO `sys_permission` (`id`, `parent_id`, `name`, `url`, `component`, `component_name`, `redirect`, `menu_type`, `perms`, `perms_type`, `sort_no`, `always_show`, `icon`, `is_route`, `is_leaf`, `keep_alive`, `hidden`, `hide_tab`, `description`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `rule_flag`, `status`, `internal_or_external`)
+VALUES
+('f2d1e9c5b7g25b0f9e3c6d8f0g4b7e2f', 'e1c0f8b4a6f14a9e8d2b5c7e9f3a6d1e', '员工管理', '/demo/hr/employee/EmployeeList', 'demo/hr/employee/index', NULL, NULL, 1, NULL, 1, 1, 0, 'team', 1, 1, 0, 0, 0, '员工基本信息管理', 'admin', NOW(), NULL, NULL, 0, 0, 1, 0),
+('g3e2f0d6c8h36c1g0f4d7e9g1h5c8f3g', 'f2d1e9c5b7g25b0f9e3c6d8f0g4b7e2f', '查看员工', NULL, NULL, NULL, NULL, 2, 'demo:hr:employee:list', 1, 1, 0, NULL, 0, 1, 0, 0, 1, '查看员工列表', 'admin', NOW(), NULL, NULL, 0, 0, 1, 0),
+('h4f3g1e7d9i47d2h1g5e8f0h2i6d9h4h', 'f2d1e9c5b7g25b0f9e3c6d8f0g4b7e2f', '新增员工', NULL, NULL, NULL, NULL, 2, 'demo:hr:employee:add', 1, 2, 0, NULL, 0, 1, 0, 0, 1, '新增员工信息', 'admin', NOW(), NULL, NULL, 0, 0, 1, 0),
+('i5g4f2f8e0j58e3i2h6f9g1j3i7e0i5i', 'f2d1e9c5b7g25b0f9e3c6d8f0g4b7e2f', '编辑员工', NULL, NULL, NULL, NULL, 2, 'demo:hr:employee:edit', 1, 3, 0, NULL, 0, 1, 0, 0, 1, '编辑员工信息', 'admin', NOW(), NULL, NULL, 0, 0, 1, 0),
+('j6h5g3f9f1k69f4j3i7g0h2k4j8f1j6j', 'f2d1e9c5b7g25b0f9e3c6d8f0g4b7e2f', '删除员工', NULL, NULL, NULL, NULL, 2, 'demo:hr:employee:delete', 1, 4, 0, NULL, 0, 1, 0, 0, 1, '删除员工信息', 'admin', NOW(), NULL, NULL, 0, 0, 1, 0),
+('k7i6h4g0g270a5k4j8h1i3l5k9g2k7k', 'f2d1e9c5b7g25b0f9e3c6d8f0g4b7e2f', '导出员工', NULL, NULL, NULL, NULL, 2, 'demo:hr:employee:export', 1, 5, 0, NULL, 0, 1, 0, 0, 1, '导出员工信息', 'admin', NOW(), NULL, NULL, 0, 0, 1, 0),
+('l8j7i5h1h381b6l5k9i2j4m6l0h3l8l', 'f2d1e9c5b7g25b0f9e3c6d8f0g4b7e2f', '导入员工', NULL, NULL, NULL, NULL, 2, 'demo:hr:employee:import', 1, 6, 0, NULL, 0, 1, 0, 0, 1, '导入员工信息', 'admin', NOW(), NULL, NULL, 0, 0, 1, 0);
